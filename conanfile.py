@@ -1,3 +1,4 @@
+import os
 from conans import ConanFile, CMake, tools, RunEnvironment
 
 
@@ -14,15 +15,18 @@ class BricksetConan(ConanFile):
     exports_sources = "src/*"
 
     def requirements(self):
-        self.requires("gsoap/2.8.68@jgsogo/testing")
+        self.requires("gsoap/2.8.68@jgsogo/stable")
 
     def source(self):
         with tools.environment_append(RunEnvironment(self).vars):
             api_v2 = "https://brickset.com/api/v2.asmx?WSDL"
-            self.run("wsdl2h -o brickset_v2.h {}".format(api_v2))
-            self.run("soapcpp2 -C brickset_v2.h")
+            self.run("wsdl2h -rlocalhost:3128 -o brickset_v2.h {}".format(api_v2))
 
     def build(self):
+        print("*"*20)
+        print(self.deps_cpp_info["gsoap"].rootpath)
+        self.run("soapcpp2 -C brickset_v2.h -I{}".format(os.path.join(self.deps_cpp_info["gsoap"].rootpath, "import")))
+        
         cmake = CMake(self)
         cmake.configure(source_folder="src")
         cmake.build()
