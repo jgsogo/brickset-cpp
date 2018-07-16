@@ -18,15 +18,19 @@ class BricksetConan(ConanFile):
         self.requires("gsoap/2.8.68@jgsogo/stable")
 
     def source(self):
+        # TODO: Move this logic to CMake
+        # Consume WSDL from Brickset
+        brickset_api_v2_path = os.path.join(self.source_folder, "src", "brickset")
+        if not os.path.exists(brickset_api_v2_path):
+            os.makedirs(brickset_api_v2_path)
+
+        api_v2 = "https://brickset.com/api/v2.asmx?WSDL"
         with tools.environment_append(RunEnvironment(self).vars):
-            api_v2 = "https://brickset.com/api/v2.asmx?WSDL"
-            self.run("wsdl2h -rlocalhost:3128 -o brickset_v2.h {}".format(api_v2))
+            brickset_filepath = os.path.join(brickset_api_v2_path, "brickset_v2.h")
+            self.run("wsdl2h -o {} {}".format(brickset_filepath, api_v2))  # May use proxy -rlocalhost:3128  ==> Document an honour env variable like HTTPS_PROXY?
+            self.run("soapcpp2 -j -x -C -d{} {} -I{}".format(brickset_api_v2_path, brickset_filepath, os.path.join(self.deps_cpp_info["gsoap"].rootpath, "import")))
 
     def build(self):
-        print("*"*20)
-        print(self.deps_cpp_info["gsoap"].rootpath)
-        self.run("soapcpp2 -C brickset_v2.h -I{}".format(os.path.join(self.deps_cpp_info["gsoap"].rootpath, "import")))
-        
         cmake = CMake(self)
         cmake.configure(source_folder="src")
         cmake.build()
