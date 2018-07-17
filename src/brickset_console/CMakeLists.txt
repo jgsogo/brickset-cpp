@@ -1,0 +1,3 @@
+
+add_executable(brickset_console main.cpp)
+target_link_libraries(brickset_console LINK_PUBLIC brickset)

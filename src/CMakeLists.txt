@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
-project(MyHello CXX)
+
+project(brickset CXX)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-# https://github.com/nherbaut/cmake-gsoap-simple-example/tree/master/src
+find_package(GSOAP REQUIRED)
 
-add_library(hello hello.cpp)
+
+add_subdirectory(brickset)
+add_subdirectory(brickset_console)
