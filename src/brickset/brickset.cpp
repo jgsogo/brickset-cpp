@@ -15,7 +15,7 @@ namespace brickset {
             // SSL issues. https://stackoverflow.com/a/27907007/837816
             soap_ssl_client_context(proxy.soap, SOAP_SSL_NO_AUTHENTICATION, NULL, NULL, NULL, NULL, NULL);
             //proxy.soap->ssl_flags = SOAP_SSL_DEFAULT;
-            //soap_register_plugin(proxy.soap, soap_wsse);
+            //soap_register_plugin(proxy.soap, soap_wsse); // https://www.genivia.com/doc/wsse/html/wsse.html
             //proxy.soap->cafile = "cacerts.pem";
         }
         ~Impl()
