@@ -8,4 +8,5 @@ int main() {
 
     brickset::Brickset ws("API_KEY");
     ws.whatever();
+    //ws.getSets("star wars");
 }

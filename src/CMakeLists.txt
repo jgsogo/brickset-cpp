@@ -6,6 +6,8 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
 find_package(GSOAP REQUIRED)
+find_package(OpenSSL REQUIRED)
+add_definitions(-DWITH_OPENSSL)
 
 
 add_subdirectory(brickset)

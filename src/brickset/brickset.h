@@ -11,6 +11,8 @@ namespace brickset {
             Brickset(const std::string& api_key);
             ~Brickset();
 
+            void getSets(const std::string& query);
+
             void whatever();
         protected:
             struct Impl;

@@ -17,6 +17,7 @@ SET(SRC_FILES
 
 
 # WSDL and proxy
+# TODO: Do not do it LIVE, it is better to version it somewhere in the repo to deal with versions.
 set(BRICKSET_WSDL "https://brickset.com/api/v2.asmx?WSDL")
 set(HTTPS_PROXY_ARG "")
 if(DEFINED ENV{HTTPS_PROXY})
@@ -39,6 +40,7 @@ add_custom_command(
 add_custom_target(GSOAP_GENERATION_TARGET DEPENDS ${CMAKE_BINARY_DIR}/generated/soapBricksetAPIv2SoapProxy.cpp)
 
 add_library(brickset ${SRC_FILES} ${GSOAP_SOURCES})
+target_link_libraries(brickset PRIVATE ${CONAN_LIBS})
 target_include_directories(brickset PRIVATE ${CMAKE_BINARY_DIR}/generated ${GSOAP_INCLUDE_DIR})
 #Make sure that the client is compiled only after gsoap has been processed
 add_dependencies(brickset GSOAP_GENERATION_TARGET)

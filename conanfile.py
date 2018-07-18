@@ -9,13 +9,16 @@ class BricksetConan(ConanFile):
     url = "<Package recipe repository url here, for issues about the package>"
     description = "<Description of Brickset here>"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False]}
-    default_options = "shared=False"
+    options = {"shared": [True, False],
+               "with_openssl": [True, False]}
+    default_options = "shared=False", "with_openssl=True"
     generators = "cmake"
     exports_sources = "src/*"
 
     def requirements(self):
         self.requires("gsoap/2.8.68@jgsogo/stable")
+        if self.options.with_openssl:
+            self.requires("OpenSSL/1.0.2o@conan/stable")
 
     def source(self):
         # TODO: Move this logic to CMake
