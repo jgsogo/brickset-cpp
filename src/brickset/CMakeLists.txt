@@ -23,6 +23,7 @@ set(HTTPS_PROXY_ARG "")
 if(DEFINED ENV{HTTPS_PROXY})
     string(REGEX REPLACE "https?://" "" HTTPS_PROXY_ARG $ENV{HTTPS_PROXY})
     set(HTTPS_PROXY_ARG "-r${HTTPS_PROXY_ARG}")
+    message(">>>> Use proxy ${HTTPS_PROXY_ARG}")
 endif()
 
 #Create a cmake target that generate gsoap files
@@ -39,8 +40,10 @@ add_custom_command(
 )
 add_custom_target(GSOAP_GENERATION_TARGET DEPENDS ${CMAKE_BINARY_DIR}/generated/soapBricksetAPIv2SoapProxy.cpp)
 
-add_library(brickset ${SRC_FILES} ${GSOAP_SOURCES})
-target_link_libraries(brickset PRIVATE ${CONAN_LIBS})
+message(">>>> ${SRC_FILES}")
+message(">>>> ${GSOAP_SOURCES}")
+add_library(brickset ${SRC_FILES})
+target_link_libraries(brickset PRIVATE ${CONAN_LIBS} ${GSOAP_SSL_CXX_LIBRARIES})
 target_include_directories(brickset PRIVATE ${CMAKE_BINARY_DIR}/generated ${GSOAP_INCLUDE_DIR})
 #Make sure that the client is compiled only after gsoap has been processed
 add_dependencies(brickset GSOAP_GENERATION_TARGET)

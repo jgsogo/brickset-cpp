@@ -31,18 +31,33 @@ namespace brickset {
 
     void Brickset::getSets(const std::string& query)
     {
+        std::string blank = "";
+
         _ns1__getSets req;
+        req.apiKey = const_cast<std::string*>(&_impl->api_key);
+        req.userHash = &blank;
         req.query = const_cast<std::string*>(&query);
+        req.theme = &blank;
+        req.subtheme = &blank;
+        req.setNumber = &blank;
+        req.year = &blank;
+        req.owned = &blank;
+        req.wanted = &blank;
+        req.orderBy = &blank;
+        req.pageSize = &blank;
+        req.pageNumber = &blank;
+        req.userName = &blank;
+
         _ns1__getSetsResponse response;
 
-        std::cout << "Call 'getSets'" << std::endl;
+        std::cout << "Call 'getSets(query='" << query << "')'" << std::endl;
         auto r = _impl->proxy.getSets(&req, response);
         std::cout << " - returned: " << r << std::endl;
         if (response.getSetsResult)
         {
             for (auto& item : response.getSetsResult->sets)
             {
-                std::cout << item << std::endl;
+                std::cout << *item->number << ": " << *item->name << std::endl;
             }
         }
     }
