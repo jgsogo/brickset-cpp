@@ -29,24 +29,26 @@ namespace brickset {
     Brickset::Brickset(const std::string& api_key) : _impl(std::make_unique<Impl>(api_key)) {}
     Brickset::~Brickset() {}
 
-    void Brickset::getSets(const std::string& query)
+    void Brickset::getSets(const std::string& userHash, const std::string& query,
+                           const std::string& theme, const std::string& subtheme, const std::string& setNumber,
+                           const std::string& year, const std::string& owned, const std::string& wanted,
+                           const std::string& orderBy, const std::string& pageSize, const std::string& pageNumber,
+                           const std::string& userName)
     {
-        std::string blank = "";
-
         _ns1__getSets req;
         req.apiKey = const_cast<std::string*>(&_impl->api_key);
-        req.userHash = &blank;
         req.query = const_cast<std::string*>(&query);
-        req.theme = &blank;
-        req.subtheme = &blank;
-        req.setNumber = &blank;
-        req.year = &blank;
-        req.owned = &blank;
-        req.wanted = &blank;
-        req.orderBy = &blank;
-        req.pageSize = &blank;
-        req.pageNumber = &blank;
-        req.userName = &blank;
+        req.userHash = const_cast<std::string*>(&userHash);
+        req.theme = const_cast<std::string*>(&theme);
+        req.subtheme = const_cast<std::string*>(&subtheme);
+        req.setNumber = const_cast<std::string*>(&setNumber);
+        req.year = const_cast<std::string*>(&year);
+        req.owned = const_cast<std::string*>(&owned);
+        req.wanted = const_cast<std::string*>(&wanted);
+        req.orderBy = const_cast<std::string*>(&orderBy);
+        req.pageSize = const_cast<std::string*>(&pageSize);
+        req.pageNumber = const_cast<std::string*>(&pageNumber);
+        req.userName = const_cast<std::string*>(&userName);
 
         _ns1__getSetsResponse response;
 
