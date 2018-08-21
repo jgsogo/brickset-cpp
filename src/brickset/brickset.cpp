@@ -7,6 +7,34 @@
 
 namespace brickset {
 
+    struct Set::Impl
+    {
+        ns1__sets* set;
+    };
+
+    class SetImpl : public Set
+    {
+        public:
+            SetImpl(ns1__sets* set)
+            {
+                _impl->set = set;
+            }
+    };
+
+    Set::Set() : _impl(std::make_unique<Impl>()) {}
+    Set::~Set() {}
+
+    const std::string& Set::number() const
+    {
+        return *_impl->set->number;
+    }
+
+    const std::string& Set::name() const
+    {
+        return *_impl->set->name;
+    }
+
+
     struct Brickset::Impl {
         Impl(const std::string& key) : api_key(key), proxy("https://brickset.com/api/v2.asmx")
         {
@@ -29,7 +57,8 @@ namespace brickset {
     Brickset::Brickset(const std::string& api_key) : _impl(std::make_unique<Impl>(api_key)) {}
     Brickset::~Brickset() {}
 
-    void Brickset::getSets(const std::string& userHash, const std::string& query,
+    std::vector<std::unique_ptr<Set>> Brickset::getSets(
+                           const std::string& userHash, const std::string& query,
                            const std::string& theme, const std::string& subtheme, const std::string& setNumber,
                            const std::string& year, const std::string& owned, const std::string& wanted,
                            const std::string& orderBy, const std::string& pageSize, const std::string& pageNumber,
@@ -55,13 +84,17 @@ namespace brickset {
         std::cout << "Call 'getSets(query='" << query << "')'" << std::endl;
         auto r = _impl->proxy.getSets(&req, response);
         std::cout << " - returned: " << r << std::endl;
+
+        std::vector<std::unique_ptr<Set>> ret;
         if (response.getSetsResult)
         {
             for (auto& item : response.getSetsResult->sets)
             {
-                std::cout << *item->number << ": " << *item->name << std::endl;
+                ret.insert(ret.end(), std::make_unique<SetImpl>(item));
+                //std::cout << *item->number << ": " << *item->name << std::endl;
             }
         }
+        return ret;
     }
 
     void Brickset::whatever()

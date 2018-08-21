@@ -47,4 +47,3 @@ target_link_libraries(brickset PRIVATE ${CONAN_LIBS} ${GSOAP_SSL_CXX_LIBRARIES})
 target_include_directories(brickset PRIVATE ${CMAKE_BINARY_DIR}/generated ${GSOAP_INCLUDE_DIR})
 #Make sure that the client is compiled only after gsoap has been processed
 add_dependencies(brickset GSOAP_GENERATION_TARGET)
-add_dependencies(brickset GSOAP_GENERATION_TARGET)
