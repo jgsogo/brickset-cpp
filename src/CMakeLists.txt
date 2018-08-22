@@ -9,6 +9,6 @@ find_package(GSOAP REQUIRED)
 find_package(OpenSSL REQUIRED)
 add_definitions(-DWITH_OPENSSL)
 
-
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_subdirectory(brickset)
 add_subdirectory(brickset_console)
