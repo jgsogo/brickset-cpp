@@ -12,6 +12,20 @@ int main() {
     if (const char* brickset_key = std::getenv(env_brickset_api_key.c_str()))
     {
         brickset::Brickset ws{ brickset_key };
+        if (!ws.checkKey())
+        {
+            std::cerr << "Invalid key provided to the library" << std::endl;
+            return 1;
+        }
+
+        /*
+        auto userHash = ws.login("username", "password");
+        std::cout << "UserHash: " << userHash.value() << std::endl;
+
+        auto userName = ws.checkUserHash(userHash.value());
+        std::cout << "Username: " << userName.value() << std::endl;
+        */
+
         //ws.whatever();
         sets = ws.getSets<true>(brickset::defaults::string, "8868", brickset::defaults::string,
             brickset::defaults::string, brickset::defaults::string, 1992);
@@ -35,5 +49,4 @@ int main() {
         std::cout << set->year().value_or(empty_value).get() << std::endl;
     }
 
-    //ws.getSets("star wars");
 }

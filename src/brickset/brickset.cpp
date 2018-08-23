@@ -10,6 +10,13 @@
 
 namespace brickset {
 
+    namespace keywords {
+        const std::string ok = "OK";
+        const std::string invalid_key = "INVALIDKEY";
+        const std::string invalid = "INVALID";
+        const std::string error_prefix = "ERROR:";
+    }
+
     struct Brickset::Impl {
         Impl(const std::string& key) : api_key(key), proxy("https://brickset.com/api/v2.asmx")
         {
@@ -35,6 +42,45 @@ namespace brickset {
     }
 
     Brickset::~Brickset() {}
+
+    bool Brickset::checkKey() const
+    {
+        _ns1__checkKey req;
+        req.apiKey = const_cast<std::string*>(&_impl->api_key);
+
+        _ns1__checkKeyResponse response;
+        auto r = _impl->proxy.checkKey(&req, response);
+        return (*response.checkKeyResult == keywords::ok);
+    }
+
+    std::optional<std::string> Brickset::login(const std::string& username, const std::string& password) const
+    {
+        _ns1__login req;
+        req.apiKey = const_cast<std::string*>(&_impl->api_key);
+        req.username = const_cast<std::string*>(&username);
+        req.password = const_cast<std::string*>(&password);
+
+        _ns1__loginResponse response;
+        auto r = _impl->proxy.login(&req, response);
+        if (*response.loginResult != keywords::invalid_key)
+        {
+            if (response.loginResult->compare(0, keywords::error_prefix.size(), keywords::error_prefix) != 0)
+            {
+                return std::optional<std::string>{*response.loginResult};
+            }
+        }
+        return std::nullopt;
+    }
+
+    std::optional<std::string> Brickset::checkUserHash(const std::string& userHash) const
+    {
+        _ns1__checkUserHash req;
+        req.userHash = const_cast<std::string*>(&userHash);
+
+        _ns1__checkUserHashResponse response;
+        auto r = _impl->proxy.checkUserHash(&req, response);
+        return (*response.checkUserHashResult != keywords::invalid) ? std::optional<std::string>{*response.checkUserHashResult} : std::nullopt;
+    }
 
     template <>
     std::vector<std::unique_ptr<Set>> Brickset::getSets<true>(
@@ -76,31 +122,4 @@ namespace brickset {
             wanted, orderBy, pageSize, pageNumber, userName);
     }
 
-    /*
-    void Brickset::whatever()
-    {
-        _ns1__checkKey request;
-        request.apiKey = const_cast<std::string*>(&_impl->api_key);
-        _ns1__checkKeyResponse response;
-
-        std::cout << _impl->proxy.soap->endpoint << std::endl;
-
-        std::cout << "Call 'checkKey'" << std::endl;
-        auto r = _impl->proxy.checkKey(&request, response);
-        if (r != SOAP_OK)
-        {
-            std::cout << "------ error " << r << " ------" << std::endl;
-            soap_stream_fault(_impl->proxy.soap, std::cout);
-            std::cout << "----------------------" << std::endl;
-            std::cout << soap_strdup(_impl->proxy.soap, _impl->proxy.soap->endpoint) << std::endl;
-        }
-        else
-        {
-            if (response.checkKeyResult)
-            {
-                std::cout << *response.checkKeyResult << std::endl;
-            }
-        }
-    }
-    */
 }

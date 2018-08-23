@@ -19,6 +19,10 @@ namespace brickset {
         Brickset(const std::string& api_key);
         ~Brickset();
 
+        bool checkKey() const;
+        std::optional<std::string> login(const std::string& username, const std::string& password) const;
+        std::optional<std::string> checkUserHash(const std::string& userHash) const;
+
         template <bool deep_copy>
         std::vector<std::unique_ptr<Set>> getSets(
             const std::string& userHash = defaults::string,
