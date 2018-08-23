@@ -23,6 +23,7 @@ namespace brickset {
         std::optional<std::string> login(const std::string& username, const std::string& password) const;
         std::optional<std::string> checkUserHash(const std::string& userHash) const;
 
+        // Sets
         template <bool deep_copy>
         std::vector<std::unique_ptr<Set>> getSets(
             const std::string& userHash = defaults::string,
@@ -38,42 +39,24 @@ namespace brickset {
             int pageNumber = 1,
             const std::string& userName = defaults::string
         );
+
+        template <bool deep_copy>
+        std::unique_ptr<Set> getSet(
+            const std::string& setId,
+            const std::string& userHash = defaults::string
+        ) const;
+
     protected:
         struct Impl;
         std::unique_ptr<Impl> _impl;
     };
 
-    template <>
-    std::vector<std::unique_ptr<Set>> Brickset::getSets<true>(
-        const std::string& userHash,
-        const std::string& query,
-        const std::string& theme,
-        const std::string& subtheme,
-        const std::string& setNumber,
-        int year,
-        bool owned,
-        bool wanted,
-        const std::string& orderBy,
-        int pageSize,
-        int pageNumber,
-        const std::string& userName
-        );
+    // getSets
+    template <> std::vector<std::unique_ptr<Set>> Brickset::getSets<true>(const std::string& userHash, const std::string& query, const std::string& theme, const std::string& subtheme, const std::string& setNumber, int year, bool owned, bool wanted, const std::string& orderBy, int pageSize, int pageNumber, const std::string& userName);
+    template <> std::vector<std::unique_ptr<Set>> Brickset::getSets<false>(const std::string& userHash, const std::string& query, const std::string& theme, const std::string& subtheme, const std::string& setNumber, int year, bool owned, bool wanted, const std::string& orderBy, int pageSize, int pageNumber, const std::string& userName);
 
-    template <>
-    std::vector<std::unique_ptr<Set>> Brickset::getSets<false>(
-        const std::string& userHash,
-        const std::string& query,
-        const std::string& theme,
-        const std::string& subtheme,
-        const std::string& setNumber,
-        int year,
-        bool owned,
-        bool wanted,
-        const std::string& orderBy,
-        int pageSize,
-        int pageNumber,
-        const std::string& userName
-        );
-
+    // getSet
+    template <> std::unique_ptr<Set> Brickset::getSet<true>(const std::string& setId, const std::string& userHash) const;
+    template <> std::unique_ptr<Set> Brickset::getSet<false>(const std::string& setId, const std::string& userHash) const;
 }
 

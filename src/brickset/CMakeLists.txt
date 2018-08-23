@@ -9,6 +9,7 @@ SET(SRC_FILES
     set.h
     set.cpp
     getSets.h
+    getSet.h
     ${CMAKE_BINARY_DIR}/generated/soapBricksetAPIv2SoapProxy.cpp
     ${CMAKE_BINARY_DIR}/generated/soapC.cpp
 )

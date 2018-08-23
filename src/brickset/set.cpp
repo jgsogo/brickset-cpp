@@ -7,6 +7,8 @@ namespace brickset {
         SetReference::SetReference(ns1__sets* set) : _set(set) {}
         SetReference::~SetReference() {}
 
+        const int& SetReference::setID() const { return _set->setID; }
+
         std::optional<std::reference_wrapper<const std::string>> SetReference::number() const
         {
             return _set->number ? std::optional<std::reference_wrapper<const std::string>>{*_set->number} : std::nullopt;
@@ -24,10 +26,13 @@ namespace brickset {
 
         SetDeepCopy::SetDeepCopy(ns1__sets* set)
         {
+            _setID = set->setID;
             if (set->number) _number = *set->number;
             if (set->name) _name = *set->name;
             if (set->year) _year = *set->year;
         }
+
+        const int& SetDeepCopy::setID() const { return _setID; }
 
         std::optional<std::reference_wrapper<const std::string>> SetDeepCopy::number() const
         {

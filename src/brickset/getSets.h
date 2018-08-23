@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "BricksetAPIv2Soap.nsmap"
+//#include "BricksetAPIv2Soap.nsmap"
 
 #include "set.h"
 

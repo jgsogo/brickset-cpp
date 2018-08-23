@@ -6,6 +6,7 @@
 #include "soapBricksetAPIv2SoapProxy.h"
 
 #include "getSets.h"
+#include "getSet.h"
 
 
 namespace brickset {
@@ -121,5 +122,18 @@ namespace brickset {
         return ::brickset::getSets<_detail::SetReference>(_impl->proxy, _impl->api_key, userHash, query, theme, subtheme, setNumber, year, owned,
             wanted, orderBy, pageSize, pageNumber, userName);
     }
+
+    template <>
+    std::unique_ptr<Set> Brickset::getSet<true>(const std::string& setId, const std::string& userHash) const
+    {
+        return ::brickset::getSet<_detail::SetDeepCopy>(_impl->proxy, _impl->api_key, setId, userHash);
+    }
+
+    template <>
+    std::unique_ptr<Set> Brickset::getSet<false>(const std::string& setId, const std::string& userHash) const
+    {
+        return ::brickset::getSet<_detail::SetReference>(_impl->proxy, _impl->api_key, setId, userHash);
+    }
+
 
 }
