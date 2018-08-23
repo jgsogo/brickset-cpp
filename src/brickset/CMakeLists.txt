@@ -5,9 +5,9 @@ file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/generated)
 
 #Add application files and gsoap dependencies
 SET(SRC_FILES
-    brickset.h
     brickset.cpp
     set.h
+    set.cpp
     getSets.h
     ${CMAKE_BINARY_DIR}/generated/soapBricksetAPIv2SoapProxy.cpp
     ${CMAKE_BINARY_DIR}/generated/soapC.cpp
