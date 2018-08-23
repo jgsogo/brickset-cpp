@@ -9,6 +9,11 @@
 
 namespace brickset {
 
+    namespace defaults {
+        constexpr const char string[] = "";
+        constexpr const int integer = 0;
+    }
+
     class Brickset {
     public:
         Brickset(const std::string& api_key);
@@ -16,18 +21,18 @@ namespace brickset {
 
         template <bool deep_copy>
         std::vector<std::unique_ptr<Set>> getSets(
-            const std::string& userHash,
-            const std::string& query,
-            const std::string& theme,
-            const std::string& subtheme,
-            const std::string& setNumber,
-            const std::string& year,
-            const std::string& owned,
-            const std::string& wanted,
-            const std::string& orderBy,
-            const std::string& pageSize,
-            const std::string& pageNumber,
-            const std::string& userName
+            const std::string& userHash = defaults::string,
+            const std::string& query = defaults::string,
+            const std::string& theme = defaults::string,
+            const std::string& subtheme = defaults::string,
+            const std::string& setNumber = defaults::string,
+            int year = defaults::integer,
+            bool owned = false,
+            bool wanted = false,
+            const std::string& orderBy = defaults::string,
+            int pageSize = 20,
+            int pageNumber = 1,
+            const std::string& userName = defaults::string
         );
     protected:
         struct Impl;
@@ -41,12 +46,12 @@ namespace brickset {
         const std::string& theme,
         const std::string& subtheme,
         const std::string& setNumber,
-        const std::string& year,
-        const std::string& owned,
-        const std::string& wanted,
+        int year,
+        bool owned,
+        bool wanted,
         const std::string& orderBy,
-        const std::string& pageSize,
-        const std::string& pageNumber,
+        int pageSize,
+        int pageNumber,
         const std::string& userName
         );
 
@@ -57,12 +62,12 @@ namespace brickset {
         const std::string& theme,
         const std::string& subtheme,
         const std::string& setNumber,
-        const std::string& year,
-        const std::string& owned,
-        const std::string& wanted,
+        int year,
+        bool owned,
+        bool wanted,
         const std::string& orderBy,
-        const std::string& pageSize,
-        const std::string& pageNumber,
+        int pageSize,
+        int pageNumber,
         const std::string& userName
         );
 

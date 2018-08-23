@@ -13,11 +13,13 @@ int main() {
     {
         brickset::Brickset ws{ brickset_key };
         //ws.whatever();
-        sets = ws.getSets<false>("8868", "", "", "", "", "", "", "", "", "", "", "");
+        sets = ws.getSets<true>(brickset::defaults::string, "8868", brickset::defaults::string,
+            brickset::defaults::string, brickset::defaults::string, 1992);
 
         for (auto& set : sets)
         {
             std::cout << set->name().value_or(empty_value).get() << std::endl;
+            std::cout << set->year().value_or(empty_value).get() << std::endl;
         }
     }
     else
@@ -30,6 +32,7 @@ int main() {
     for (auto& set : sets)
     {
         std::cout << set->name().value_or(empty_value).get() << std::endl;
+        std::cout << set->year().value_or(empty_value).get() << std::endl;
     }
 
     //ws.getSets("star wars");

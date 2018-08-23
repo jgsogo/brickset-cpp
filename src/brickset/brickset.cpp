@@ -43,12 +43,12 @@ namespace brickset {
         const std::string& theme,
         const std::string& subtheme,
         const std::string& setNumber,
-        const std::string& year,
-        const std::string& owned,
-        const std::string& wanted,
+        int year,
+        bool owned,
+        bool wanted,
         const std::string& orderBy,
-        const std::string& pageSize,
-        const std::string& pageNumber,
+        int pageSize,
+        int pageNumber,
         const std::string& userName
         )
     {
@@ -63,12 +63,12 @@ namespace brickset {
         const std::string& theme,
         const std::string& subtheme,
         const std::string& setNumber,
-        const std::string& year,
-        const std::string& owned,
-        const std::string& wanted,
+        int year,
+        bool owned,
+        bool wanted,
         const std::string& orderBy,
-        const std::string& pageSize,
-        const std::string& pageNumber,
+        int pageSize,
+        int pageNumber,
         const std::string& userName
         )
     {
