@@ -27,6 +27,7 @@ namespace brickset {
 
         if (response.getSetResult)
         {
+            assert(response.getSetResult->sets.size() == 1);
             std::unique_ptr<Set> ret = std::make_unique<SetImplType>(response.getSetResult->sets.front());
             return ret;
         }
